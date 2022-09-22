@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import gsap from "gsap";
-import { onMounted } from "vue";
+import { Motion, Presence } from "motion/vue";
+import { ref, onMounted } from "vue";
 
 onMounted(() => {
   gsap.fromTo(
@@ -32,14 +33,48 @@ onMounted(() => {
     }
   );
 });
+
+const show = ref(true);
 </script>
 
 <template>
   <div>
-    Animation:
-    <p id="testx">Move X</p>
-    <p id="testy">Move Y</p>
+    <button @click="show = !show">Animate</button>
+    <p id="testx" class="brick-red">Move X</p>
+    <p id="testy" class="brick-green">Move Y</p>
+    <Presence>
+      <Motion
+        v-show="show"
+        :initial="{ opacity: 0, scale: 0 }"
+        :animate="{ opacity: 1, scale: 1 }"
+        :exit="{ opacity: 0, scale: 0.6 }"
+        class="brick-blue"
+      >
+        Opacity
+      </Motion>
+    </Presence>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.brick-red {
+  width: 200px;
+  height: 80px;
+  color: darkred;
+  background-color: lightcoral;
+}
+
+.brick-blue {
+  width: 200px;
+  height: 80px;
+  color: darkblue;
+  background-color: lightblue;
+}
+
+.brick-green {
+  width: 200px;
+  height: 80px;
+  color: darkgreen;
+  background-color: lightgreen;
+}
+</style>
